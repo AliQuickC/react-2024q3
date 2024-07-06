@@ -21,6 +21,7 @@ module.exports = {
   },
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    "react-compiler/react-compiler": "error",
     'no-debugger': 'off',
     'no-console': 0,
     'class-methods-use-this': 'off',
