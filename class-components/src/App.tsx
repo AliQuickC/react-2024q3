@@ -12,18 +12,22 @@ class App extends React.Component<IProps, ICardState> {
     this.state = { haveData: false, starships: [] };
   }
 
-  setCards = (starships: IStarShip[] | []) => {
+  setCards = (starships: IStarShip[]) => {
     this.setState({
       haveData: true,
       starships,
     });
-  }
+  };
+
+  switchHaveData = (haveData: boolean) => {
+    this.setState({ ...this.state, haveData });
+  };
 
   render() {
     return (
       <main className="main">
         <div className="container">
-          <Search />
+          <Search switchHaveData={this.switchHaveData} setCards={this.setCards} />
           <Cards cardsState={this.state} setCards={this.setCards} />
         </div>
       </main>

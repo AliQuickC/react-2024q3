@@ -13,5 +13,5 @@ export interface IStarShip {
 
 export interface ICardState {
   haveData: boolean;
-  starships: IStarShip[] | [];
+  starships: IStarShip[];
 }

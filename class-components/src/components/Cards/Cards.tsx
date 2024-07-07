@@ -5,7 +5,7 @@ import { ICardState, IStarShip } from '../../Types/type';
 
 interface IProps {
   cardsState: ICardState;
-  setCards: (cards: IStarShip[] | []) => void;
+  setCards: (cards: IStarShip[]) => void;
 }
 
 class Cards extends React.Component<IProps, ICardState> {
@@ -23,13 +23,11 @@ class Cards extends React.Component<IProps, ICardState> {
 
   render() {
     if (this.props.cardsState.haveData) {
-      return (
-        <div className={s.cards}>
-          {this.props.cardsState.starships.map((starship, index) => {
-            return <Card key={index} starship={starship} />;
-          })}
-        </div>
-      );
+      const cards = this.props.cardsState.starships.map((starship, index) => {
+        return <Card key={index} starship={starship} />;
+      });
+
+      return <div className={s.cards}>{cards.length === 0 ? 'Starships not found!' : cards}</div>;
     }
     return (
       <>
