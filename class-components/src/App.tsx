@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.sass';
 import Cards from './components/Cards/Cards';
-import Search from './components/Search/Search';
 import { ICardState, IStarShip } from './Types/type';
+import Header from './components/Header/Header';
 
 interface IProps {}
 
@@ -25,12 +25,14 @@ class App extends React.Component<IProps, ICardState> {
 
   render() {
     return (
-      <main className="main">
-        <div className="container">
-          <Search switchHaveData={this.switchHaveData} setCards={this.setCards} />
-          <Cards cardsState={this.state} setCards={this.setCards} />
-        </div>
-      </main>
+      <>
+        <Header switchHaveData={this.switchHaveData} setCards={this.setCards} />
+        <main className="main">
+          <div className="container">
+            <Cards cardsState={this.state} setCards={this.setCards} />
+          </div>
+        </main>
+      </>
     );
   }
 }
