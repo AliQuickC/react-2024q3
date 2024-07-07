@@ -10,3 +10,8 @@ export interface IStarShip {
   passengers: string;
   starship_class: string;
 }
+
+export interface ICardState {
+  haveData: boolean;
+  starships: IStarShip[] | [];
+}
