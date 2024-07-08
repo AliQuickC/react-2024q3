@@ -1,0 +1,26 @@
+
+.cards
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  justify-content: center
+  gap: 20px
+  padding-top: 20px
+  padding-bottom: 20px
+
+.card
+  position: relative
+  border: 1px solid #ededed
+  border-radius: 0
+  flex-basis: 20%
+  @media(max-width: 768px)
+    flex-basis: 45%
+  @media(max-width: 460px)
+    flex-basis: 100%
+  &Body
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    padding: 15px
+    & div
+      text-align: left
