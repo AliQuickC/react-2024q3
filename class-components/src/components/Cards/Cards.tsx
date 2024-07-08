@@ -29,11 +29,7 @@ class Cards extends React.Component<IProps, ICardState> {
 
       return <div className={s.cards}>{cards.length === 0 ? 'Starships not found!' : cards}</div>;
     }
-    return (
-      <>
-        <img src="/loader.gif" alt="loader..." />
-      </>
-    );
+    return <img src="/loader.gif" alt="loader..." />;
   }
 }
 
