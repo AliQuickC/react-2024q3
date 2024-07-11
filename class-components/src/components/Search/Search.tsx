@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import s from './Search.module.sass';
 import { IStarShip } from '../../Types/type';
 
@@ -9,50 +9,48 @@ interface IProps {
   setCards: (cards: IStarShip[]) => void;
 }
 
-interface IState {
-  findWord: string;
-}
+function Search(props: IProps) {
+  const [findWord, setFindWord] = useState<string>('');
+  const refFindWord = useRef('');
 
-class Search extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    this.state = { findWord: '' };
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     const LocStor = localStorage.getItem(storeKEY);
     if (!LocStor || LocStor === '{}') {
-      this.setState({ findWord: '' });
+      setFindWord('');
+      refFindWord.current = '';
     } else {
-      this.setState(JSON.parse(LocStor));
+      const findWord = JSON.parse(LocStor).findWord;
+      setFindWord(findWord);
+      refFindWord.current = findWord;
     }
-  }
+    return () => {
+      localStorage.setItem(storeKEY, JSON.stringify({ findWord: refFindWord.current }));
+    };
+  }, []);
 
-  findHandler = () => {
-    localStorage.setItem(storeKEY, JSON.stringify({ findWord: this.state.findWord }));
-    this.props.switchHaveData(false);
-    fetch('https://swapi.dev/api/starships/?search=' + this.state.findWord)
+  const findHandler = () => {
+    localStorage.setItem(storeKEY, JSON.stringify({ findWord: findWord }));
+    props.switchHaveData(false);
+    fetch('https://swapi.dev/api/starships/?search=' + findWord)
       .then((response) => response.json())
       .then((data) => {
-        this.props.setCards(data.results);
+        props.setCards(data.results);
       });
   };
 
-  render() {
-    return (
-      <div className={s.search}>
-        <input
-          className={s.searchInput}
-          type="text"
-          value={this.state.findWord}
-          onChange={(event) => {
-            this.setState({ findWord: event.target.value.trim() });
-          }}
-        />
-        <button className={s.findButton} onClick={this.findHandler}></button>
-      </div>
-    );
-  }
+  return (
+    <div className={s.search}>
+      <input
+        className={s.searchInput}
+        type="text"
+        value={findWord}
+        onChange={(event) => {
+          setFindWord(event.target.value.trim());
+        }}
+      />
+      <button className={s.findButton} onClick={findHandler}></button>
+    </div>
+  );
 }
 
 export default Search;
