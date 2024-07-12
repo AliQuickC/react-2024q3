@@ -10,7 +10,18 @@ lerna-debug.log*
 # other
 node_modules
 dist
+dist-ssr
+*.local
 build
 .env
 package-lock.json
 *.lnk
+
+# Editor directories and files
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
