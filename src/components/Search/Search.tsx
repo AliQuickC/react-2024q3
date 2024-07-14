@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import s from './Search.module.sass';
 import { SetCards } from '../../Types/type';
-import { baseUrl } from '../../modules/constants';
+import { useSearchParams } from 'react-router-dom';
 
 const storeKEY = 'module1';
 
@@ -13,6 +13,7 @@ interface IProps {
 function Search(props: IProps) {
   const [findWord, setFindWord] = useState<string>('');
   const refFindWord = useRef('');
+  const [, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const LocStor = localStorage.getItem(storeKEY);
@@ -32,11 +33,15 @@ function Search(props: IProps) {
   const findHandler = () => {
     localStorage.setItem(storeKEY, JSON.stringify({ findWord: findWord }));
     props.switchHaveData(false);
-    fetch(baseUrl + '/?search=' + findWord)
-      .then((response) => response.json())
-      .then((data) => {
-        props.setCards(data);
+    if (findWord === '') {
+      setSearchParams((params) => {
+        params.delete('search');
+        return params;
       });
+      setSearchParams({ page: '1' });
+    } else {
+      setSearchParams({ search: findWord, page: '1' });
+    }
   };
 
   return (

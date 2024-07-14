@@ -4,12 +4,14 @@ import { ICardState, IStarshipsResponse } from '../../Types/type';
 import Cards from '../../components/Cards/Cards';
 import Pagination from '../../components/Pagination/Pagination';
 import { baseUrl } from '../../modules/constants';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 export default function CardsPage() {
-  const match = { params: useParams() };
-  const pageFromUrl = match.params.page || '1';
-  const url = baseUrl + `?page=${pageFromUrl}`;
+  const location = useLocation();
+  const pageNumber = new URLSearchParams(location.search).get('page') || '1';
+  const searchWord = new URLSearchParams(location.search).get('search');
+
+  const url = searchWord ? baseUrl + `?search=${searchWord}&page=${pageNumber}` : baseUrl + `?page=${pageNumber}`;
 
   const [starShipsData, setStarShipsData] = useState<ICardState>({
     haveData: false,
@@ -17,6 +19,14 @@ export default function CardsPage() {
     starships: [],
     currentPage: 1,
   });
+
+  function getCardsAPI(url: string, pageNumber: number = 1) {
+    fetch(url)
+      .then((response: Response) => response.json())
+      .then((data: IStarshipsResponse) => {
+        setCards(data, pageNumber);
+      });
+  }
 
   const setCards = (starships: IStarshipsResponse, currentPage: number = 1) => {
     setStarShipsData({
@@ -29,12 +39,8 @@ export default function CardsPage() {
   };
 
   useEffect(() => {
-    fetch(url)
-      .then((response: Response) => response.json())
-      .then((data: IStarshipsResponse) => {
-        setCards(data, +pageFromUrl);
-      });
-  }, [pageFromUrl]); // eslint-disable-line react-hooks/exhaustive-deps
+    getCardsAPI(url, +pageNumber);
+  }, [url, starShipsData.haveData, pageNumber]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const switchHaveData = (haveData: boolean) => {
     setStarShipsData({ ...starShipsData, haveData });
