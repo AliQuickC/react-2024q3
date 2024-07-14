@@ -11,7 +11,16 @@ export interface IStarShip {
   starship_class: string;
 }
 
+export interface IStarshipsResponse {
+  count: number;
+  results: IStarShip[];
+}
+
 export interface ICardState {
   haveData: boolean;
+  shipsTotal: number;
   starships: IStarShip[];
+  currentPage: number;
 }
+
+export type SetCards = (cards: IStarshipsResponse, currentPage?: number) => void;

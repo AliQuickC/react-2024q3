@@ -1,21 +1,27 @@
 import { useEffect } from 'react';
 import s from './Card.module.sass';
 import Card from './Card';
-import { ICardState, IStarShip } from '../../Types/type';
+import { ICardState, IStarshipsResponse, SetCards } from '../../Types/type';
+import { useParams } from 'react-router-dom';
+import { baseUrl } from '../../modules/constants';
 
 interface IProps {
   cardsState: ICardState;
-  setCards: (cards: IStarShip[]) => void;
+  setCards: SetCards;
 }
 
 function Cards(props: IProps) {
+  const match = { params: useParams() };
+  const pageFromUrl = match.params.page || '1';
+  const url = baseUrl + `?page=${pageFromUrl}`;
+
   useEffect(() => {
-    fetch('https://swapi.dev/api/starships')
+    fetch(url)
       .then((response: Response) => response.json())
-      .then((data: { results: IStarShip[] }) => {
-        props.setCards(data.results);
+      .then((data: IStarshipsResponse) => {
+        props.setCards(data, +pageFromUrl);
       });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [pageFromUrl]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (props.cardsState.haveData) {
     const cards = props.cardsState.starships.map((starship, index) => {

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { IStarShip } from '../../Types/type';
+import { useState } from 'react';
+import { SetCards } from '../../Types/type';
 import Search from '../Search/Search';
 import s from './Header.module.sass';
 
 interface IProps {
   switchHaveData: (haveData: boolean) => void;
-  setCards: (cards: IStarShip[]) => void;
+  setCards: SetCards;
 }
 
 function Header(props: IProps) {

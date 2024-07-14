@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import s from './Search.module.sass';
-import { IStarShip } from '../../Types/type';
+import { SetCards } from '../../Types/type';
+import { baseUrl } from '../../modules/constants';
 
 const storeKEY = 'module1';
 
 interface IProps {
   switchHaveData: (haveData: boolean) => void;
-  setCards: (cards: IStarShip[]) => void;
+  setCards: SetCards;
 }
 
 function Search(props: IProps) {
@@ -31,10 +32,10 @@ function Search(props: IProps) {
   const findHandler = () => {
     localStorage.setItem(storeKEY, JSON.stringify({ findWord: findWord }));
     props.switchHaveData(false);
-    fetch('https://swapi.dev/api/starships/?search=' + findWord)
+    fetch(baseUrl + '/?search=' + findWord)
       .then((response) => response.json())
       .then((data) => {
-        props.setCards(data.results);
+        props.setCards(data);
       });
   };
 
