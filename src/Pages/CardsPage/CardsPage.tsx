@@ -40,13 +40,17 @@ export default function CardsPage() {
 
   useEffect(() => {
     getCardsAPI(url, +pageNumber);
-  }, [url, starShipsData.haveData, pageNumber]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [starShipsData.haveData]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    switchHaveData(false);
+  }, [url, pageNumber, searchWord]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const switchHaveData = (haveData: boolean) => {
     setStarShipsData({ ...starShipsData, haveData });
   };
 
-  const content: JSX.Element = starShipsData.haveData ? (
+  const cardsContent: JSX.Element = starShipsData.haveData ? (
     <>
       <Pagination cardsTotal={starShipsData.shipsTotal} currentPage={starShipsData.currentPage} />
       <Cards cardsState={starShipsData} setCards={setCards} />
@@ -59,7 +63,7 @@ export default function CardsPage() {
     <>
       <Header switchHaveData={switchHaveData} setCards={setCards} />
       <main className="main">
-        <div className="container">{content}</div>
+        <div className="container">{cardsContent}</div>
       </main>
     </>
   );

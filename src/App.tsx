@@ -16,7 +16,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<Navigate replace to={'/cards?page=2'} />} />
+        <Route index element={<Navigate replace to={'/cards?page=1'} />} />
         <Route path="/cards?" element={<CardsPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Route>
