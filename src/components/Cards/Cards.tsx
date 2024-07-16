@@ -6,7 +6,6 @@ import Pagination from '../Pagination/Pagination';
 interface IProps {
   cardsState: ICardState;
   setCards: SetCards;
-  switchShowDetail: (isShowCardDetail: boolean) => void;
   pageNumber: number;
   cardsTotal: number;
   currentPage: number;
@@ -18,14 +17,7 @@ function Cards(props: IProps) {
       const url = new URL(starship.url);
       const urlPath: string[] = url.pathname.split('/');
 
-      return (
-        <Card
-          key={index}
-          id={urlPath[urlPath.length - 2]}
-          starship={starship}
-          switchShowDetail={props.switchShowDetail}
-        />
-      );
+      return <Card key={index} id={urlPath[urlPath.length - 2]} starship={starship} />;
     });
 
     return (

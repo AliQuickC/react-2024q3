@@ -19,7 +19,6 @@ export interface IStarshipsResponse {
 
 export interface ICardState {
   haveData: boolean;
-  isShowCardDetail: boolean;
   shipsTotal: number;
   starships: IStarShip[];
   currentPage: number;

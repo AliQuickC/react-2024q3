@@ -1,38 +1,46 @@
+import { useSearchParams } from 'react-router-dom';
 import s from './CardDetails.module.sass';
+import { IStarShipState } from '../../Types/type';
 
 interface IProps {
-  isShowCardDetail: boolean;
-  switchShowDetail: (isShowCardDetail: boolean) => void;
+  starShipDetails: IStarShipState;
 }
 
 function CardDetails(props: IProps) {
+  const [, setDetailsParam] = useSearchParams();
+  const starship = props.starShipDetails.starship;
+
   return (
     <div className={s.cardDetailSide}>
       <button
         className={s.closeButton}
         onClick={() => {
-          props.switchShowDetail(false);
-          // !!!
+          setDetailsParam((params) => {
+            params.delete('item');
+            return params;
+          });
         }}
       >
         close
       </button>
-      <img style={{ maxWidth: '100%' }} src="/loader.gif" alt="loader..." />
-
-      <div className={s.cardDetailProperties}>
-        <h4>Star Ship Info:</h4>
-        <div className={s.cardBody}>
-          {/* <div className="starships-model">model: {props.starship.model}</div>
-          <div className="starships-starship-class">starship class: {props.starship.starship_class}</div>
-          <div className="starships-passengers">passengers: {props.starship.passengers}</div>
-          <div className="starships-cargo-capacity">cargo capacity: {props.starship.cargo_capacity}</div>
-          <div className="starships-length">length: {props.starship.length}</div>
-          <div className="starships-manufacturer">manufacturer: {props.starship.manufacturer}</div>
-          <div className="starships-atmosphering-speed">
-            max atmosphering speed: {props.starship.max_atmosphering_speed}
-          </div> */}
+      {props.starShipDetails.haveData && starship ? (
+        <div className={s.cardDetailProperties}>
+          <h4 className={s.detailTitle}>Star Ship Info:</h4>
+          <div className={s.cardBody}>
+            <div className="starships-model">model: {starship.model}</div>
+            <div className="starships-starship-class">starship class: {starship.starship_class}</div>
+            <div className="starships-passengers">passengers: {starship.passengers}</div>
+            <div className="starships-cargo-capacity">cargo capacity: {starship.cargo_capacity}</div>
+            <div className="starships-length">length: {starship.length}</div>
+            <div className="starships-manufacturer">manufacturer: {starship.manufacturer}</div>
+            <div className="starships-atmosphering-speed">
+              max atmosphering speed: {starship.max_atmosphering_speed}
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <img style={{ maxWidth: '100%' }} src="/loader.gif" alt="loader..." />
+      )}
     </div>
   );
 }
