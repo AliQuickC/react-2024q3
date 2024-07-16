@@ -1,12 +1,11 @@
 import { useSearchParams } from 'react-router-dom';
 import s from './Pagination.module.sass';
+import { MAX_CARDS } from '../../modules/constants';
 
 interface IProps {
   cardsTotal: number;
   currentPage: number;
 }
-
-const MAX_CARDS = 10;
 
 export default function Pagination(props: IProps) {
   const [searchParams, setSearchParams] = useSearchParams();

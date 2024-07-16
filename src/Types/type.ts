@@ -9,6 +9,7 @@ export interface IStarShip {
   max_atmosphering_speed: string;
   passengers: string;
   starship_class: string;
+  url: string;
 }
 
 export interface IStarshipsResponse {
@@ -18,9 +19,15 @@ export interface IStarshipsResponse {
 
 export interface ICardState {
   haveData: boolean;
+  isShowCardDetail: boolean;
   shipsTotal: number;
   starships: IStarShip[];
   currentPage: number;
+}
+
+export interface IStarShipState {
+  haveData: boolean;
+  starship: IStarShip | null;
 }
 
 export type SetCards = (cards: IStarshipsResponse, currentPage?: number) => void;
