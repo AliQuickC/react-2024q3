@@ -1,6 +1,8 @@
 import s from './Card.module.sass';
 import { IStarShip } from '../../Types/type';
 import { useSearchParams } from 'react-router-dom';
+import { useContext } from 'react';
+import { starShipDataContext } from '../../modules/constants';
 
 interface IProps {
   starship: IStarShip;
@@ -10,15 +12,18 @@ interface IProps {
 function Card(props: IProps) {
   const [, setDetailsParam] = useSearchParams();
 
+  const starShips = useContext(starShipDataContext);
+
   return (
     <div
       className={s.card}
       onClick={() => {
-        console.log('Card');
-        setDetailsParam((params) => {
-          params.set('item', props.id);
-          return params;
-        });
+        if (!starShips.starShipId) {
+          setDetailsParam((params) => {
+            params.set('item', props.id);
+            return params;
+          });
+        }
       }}
     >
       <div className={s.cardBody}>

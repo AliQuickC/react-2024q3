@@ -1,10 +1,12 @@
 import s from './MainSide.module.sass';
 import Card from '../Cards/Card';
-import { ICardState, SetCards } from '../../Types/type';
+import { SetCards } from '../../Types/type';
 import Pagination from '../Pagination/Pagination';
+import { useContext } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { starShipDataContext } from '../../modules/constants';
 
 interface IProps {
-  cardsState: ICardState;
   setCards: SetCards;
   pageNumber: number;
   cardsTotal: number;
@@ -12,7 +14,11 @@ interface IProps {
 }
 
 function MainSide(props: IProps) {
-  const cards: JSX.Element[] = props.cardsState.starships.map((starship, index) => {
+  const starShips = useContext(starShipDataContext);
+
+  const [, setDetailsParam] = useSearchParams();
+
+  const cards: JSX.Element[] = starShips.starShipsState.starships.map((starship, index) => {
     const url = new URL(starship.url);
     const urlPath: string[] = url.pathname.split('/');
 
@@ -24,7 +30,12 @@ function MainSide(props: IProps) {
       <div
         className={s.cardsSide}
         onClick={() => {
-          console.log('Main');
+          if (starShips.starShipsState.haveData && starShips.starShipId) {
+            setDetailsParam((params) => {
+              params.delete('item');
+              return params;
+            });
+          }
         }}
       >
         <Pagination cardsTotal={props.cardsTotal} currentPage={props.currentPage} />
