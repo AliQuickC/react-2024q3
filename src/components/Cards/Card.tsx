@@ -14,6 +14,7 @@ function Card(props: IProps) {
     <div
       className={s.card}
       onClick={() => {
+        console.log('Card');
         setDetailsParam((params) => {
           params.set('item', props.id);
           return params;

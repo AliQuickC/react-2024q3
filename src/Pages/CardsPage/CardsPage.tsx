@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import Header from '../../components/Header/Header';
 import { ICardState, IStarShip, IStarshipsResponse, IStarShipState } from '../../Types/type';
-import Cards from '../../components/Cards/Cards';
+import MainSide from '../../components/MainSide/MainSide';
 import { baseUrl } from '../../modules/constants';
 import { useLocation } from 'react-router-dom';
 import CardDetails from '../../components/CardDetails/CardDetails';
 import s from './CardsPage.module.sass';
+import Loader from '../../components/Loader/Loader';
 
 const initialDetailState = { haveData: false, starship: null };
 
@@ -84,13 +85,17 @@ export default function CardsPage() {
             (starShipsData.haveData && starShipId ? s.cardsContainerDetailsShow : '')
           }
         >
-          <Cards
-            cardsState={starShipsData}
-            setCards={setCards}
-            pageNumber={+pageNumber}
-            cardsTotal={starShipsData.shipsTotal}
-            currentPage={starShipsData.currentPage}
-          />
+          {starShipsData.haveData ? (
+            <MainSide
+              cardsState={starShipsData}
+              setCards={setCards}
+              pageNumber={+pageNumber}
+              cardsTotal={starShipsData.shipsTotal}
+              currentPage={starShipsData.currentPage}
+            />
+          ) : (
+            <Loader />
+          )}
 
           {starShipsData.haveData && starShipId ? <CardDetails starShipDetails={starShipDetails} /> : ''}
         </div>
